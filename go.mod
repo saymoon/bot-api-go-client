@@ -1,4 +1,4 @@
-module github.com/MixinNetwork/bot-api-go-client
+module github.com/saymoon/bot-api-go-client
 
 go 1.12
 
