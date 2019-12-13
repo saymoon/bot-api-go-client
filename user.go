@@ -93,24 +93,24 @@ func GetUsers(ctx context.Context, accessToken string, ids []string) (*[]User, e
 	data, err := json.Marshal(ids)
 
 	body, err := Request(ctx, "POST", "/users/fetch", data, accessToken)
-    if err != nil {
-        return nil, err
-    }
-    var resp struct {
-        Data  *[]User 	 `json:"data"`
-        Error Error      `json:"error"`
-    }
-    err = json.Unmarshal(body, &resp)
-    if err != nil {
-        return nil, BadDataError(ctx)
-    }
-    if resp.Error.Code > 0 {
-        if resp.Error.Code == 401 {
-            return nil, AuthorizationError(ctx)
-        } else if resp.Error.Code == 403 {
-            return nil, ForbiddenError(ctx)
-        }
-        return nil, ServerError(ctx, resp.Error)
-    }
-    return resp.Data, nil
+	if err != nil {
+		return nil, err
+	}
+	var resp struct {
+		Data  *[]User 	 `json:"data"`
+		Error Error      `json:"error"`
+	}
+	err = json.Unmarshal(body, &resp)
+	if err != nil {
+		return nil, BadDataError(ctx)
+	}
+	if resp.Error.Code > 0 {
+		if resp.Error.Code == 401 {
+			return nil, AuthorizationError(ctx)
+		} else if resp.Error.Code == 403 {
+			return nil, ForbiddenError(ctx)
+		}
+		return nil, ServerError(ctx, resp.Error)
+	}
+	return resp.Data, nil
 }
