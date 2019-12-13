@@ -17,15 +17,15 @@ type Snapshot struct {
     CounterUserId  string `json:"counter_user_id"`
 }
 
-func SnapshotList(ctx context.Context, accessToken string, limit int, offset string, asset string)([]Snapshot, error) {
+func SnapshotList(ctx context.Context, accessToken string, limit int, offset string, asset string)(*[]Snapshot, error) {
     path := fmt.Sprintf("/snapshots?limit=%d&offset=%s&asset=%s", limit, offset, asset)
     body, err := Request(ctx, "GET", path, nil, accessToken)
     if err != nil {
         return nil, err
     }
     var resp struct {
-        Data  []Snapshot `json:"data"`
-        Error Error      `json:"error"`
+        Data  *[]Snapshot `json:"data"`
+        Error Error       `json:"error"`
     }
     err = json.Unmarshal(body, &resp)
     if err != nil {
